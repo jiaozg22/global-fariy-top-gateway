@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<configuration status="ERROR" monitorInterval="1800">
+    <Properties>
+    
+        <!-- 基础配置 -->
+        <property name="logFileDir">global-fairy-gateway</property>
+        <property name="basePath">d:/logs/${logFileDir}</property>
+        <property name="console_log_pattern">[%r] %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %l -[%t] - %m%n</property>
+        <property name="log_pattern">[%r] %d %p %c{4} %L %M [%t] %m%n</property>
+        <property name="every_file_size">2MB</property>
+        <property name="output_log_level">DEBUG</property>
+        <property name="log_charset">UTF-8</property>
+
+		<!-- 所有级别日志 -->
+        <property name="rolling_fileName">${basePath}/all.log</property>
+        <property name="rolling_filePattern">${basePath}/all-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="rolling_max">500</property>
+        <property name="rolling_timeInterval">12</property>
+        <property name="rolling_timeModulate">true</property>
+
+        <!-- INFO级别日志 -->
+        <property name="info_fileName">${basePath}/info.log</property>
+        <property name="info_filePattern">${basePath}/info-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="info_max">100</property>
+        <property name="info_timeInterval">1</property>
+        <property name="info_timeModulate">true</property>
+
+		<!-- WARN级别日志 -->
+        <property name="warn_fileName">${basePath}/warn.log</property>
+        <property name="warn_filePattern">${basePath}/warn-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="warn_max">100</property>
+        <property name="warn_timeInterval">1</property>
+        <property name="warn_timeModulate">true</property>
+
+		<!-- ERROR级别日志 -->
+        <property name="error_fileName">${basePath}/error.log</property>
+        <property name="error_filePattern">${basePath}/error-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="error_max">100</property>
+        <property name="error_timeInterval">1</property>
+        <property name="error_timeModulate">true</property>
+
+		<!-- 控制台日志 -->
+        <property name="console_print_level">DEBUG</property>
+        
+        <!-- 普通操作文件日志 -->
+        <property name="systemLog_fileName">${basePath}/systemLog.log</property>
+        <property name="systemLog_filePattern">${basePath}/systemLog-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="systemLog_max">100</property>
+        <property name="systemLog_timeInterval">1</property>
+        <property name="systemLog_timeModulate">true</property>
+		<property name="systemLog_level">INFO</property>
+
+        <!-- 网络操作日志 -->
+        <property name="netWorkLog_fileName">${basePath}/netWorkLog.log</property>
+        <property name="netWorkLog_filePattern">${basePath}/netWorkLog-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="netWorkLog_max">100</property>
+        <property name="netWorkLog_timeInterval">1</property>
+        <property name="netWorkLog_timeModulate">true</property>
+		<property name="netWorkLog_level">INFO</property>
+
+        <!-- 通信模块日志 -->
+        <property name="nio_fileName">${basePath}/nio.log</property>
+        <property name="nio_filePattern">${basePath}/nio-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="nio_max">100</property>
+        <property name="nio_timeInterval">1</property>
+        <property name="nio_timeModulate">true</property>
+		<property name="nio_level">INFO</property>
+
+        <!-- 其他服务操作文件日志 -->
+        <property name="tool_fileName">${basePath}/toolServiceLog.log</property>
+        <property name="tool_filePattern">${basePath}/toolServiceLog-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="tool_max">100</property>
+        <property name="tool_timeInterval">1</property>
+        <property name="tool_timeModulate">true</property>
+		<property name="tool_level">INFO</property>
+
+        <!-- 客户端安装与卸载日志配置日志 -->
+        <property name="client_fileName">${basePath}/clientDeploy.log</property>
+        <property name="client_filePattern">${basePath}/clientDeploy-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="client_max">100</property>
+        <property name="client_timeInterval">1</property>
+        <property name="client_timeModulate">true</property>
+		<property name="client_level">INFO</property>
+
+        <!-- API 文件日志记录日志 -->
+        <property name="api_fileName">${basePath}/api.log</property>
+        <property name="api_filePattern">${basePath}/api-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="api_max">100</property>
+        <property name="api_timeInterval">1</property>
+        <property name="api_timeModulate">true</property>
+		<property name="api_level">INFO</property>
+
+        <!-- 挂载文件浏览功能 文件日志记录 -->
+        <property name="mountFile_fileName">${basePath}/mountFile.log</property>
+        <property name="mountFile_filePattern">${basePath}/api-%d{yyyy-MM-dd}.log.%i</property>
+        <property name="mountFile_max">100</property>
+        <property name="mountFile_timeInterval">1</property>
+        <property name="mountFile_timeModulate">true</property>
+		<property name="mountFile_level">DEBUG</property>
+
+        <!-- 一键迁移日志 -->
+        <property name="xkey_fileName">${basePath}/xkey.log</property>
+        <property name="xkey_filePattern">${basePath}/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz</property>
+        <property name="xkey_max">100</property>
+        <property name="xkey_timeInterval">1</property>
+        <property name="xkey_timeModulate">true</property>
+        <property name="xkey_level">DEBUG</property>
+
+    </Properties>
+
+    <appenders>
+    
+        <!-- 控制台设置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="${console_print_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="${log_charset}" pattern="${console_log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${rolling_timeInterval}" modulate="${warn_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${rolling_max}" />
+        </Console>
+
+        <!-- 输出ROOT中指定的level级别以上日志 -->
+        <RollingFile name="RollingFile" fileName="${rolling_fileName}" filePattern="${rolling_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${rolling_timeInterval}" modulate="${warn_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${rolling_max}" />
+        </RollingFile>
+
+        <!-- 输出INFO级别日志 -->
+        <RollingFile name="InfoFile" fileName="${info_fileName}" filePattern="${info_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${info_timeInterval}" modulate="${info_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${info_max}" />
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>  
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+		<!-- 输出WARN级别日志 -->
+        <RollingFile name="WarnFile" fileName="${warn_fileName}" filePattern="${warn_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${warn_timeInterval}" modulate="${warn_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${warn_max}" />
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>  
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+		<!-- 输出ERROR级别日志 -->
+        <RollingFile name="ErrorFile" fileName="${error_fileName}" filePattern="${error_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${error_timeInterval}" modulate="${error_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${error_max}" />
+            <Filters>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>  
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!-- 普通操作文件日志 -->
+        <RollingFile name="SystemLogFile" fileName="${systemLog_fileName}" filePattern="${systemLog_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${systemLog_timeInterval}" modulate="${systemLog_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${systemLog_max}" />
+            <ThresholdFilter level="${systemLog_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- 网络操作日志 -->
+        <RollingFile name="NetWorkLogFile" fileName="${netWorkLog_fileName}" filePattern="${netWorkLog_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${netWorkLog_timeInterval}" modulate="${netWorkLog_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${netWorkLog_max}" />
+            <ThresholdFilter level="${netWorkLog_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+         <!-- 通信模块日志 -->
+        <RollingFile name="NioFile" fileName="${nio_fileName}" filePattern="${nio_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${nio_timeInterval}" modulate="${nio_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${nio_max}" />
+            <ThresholdFilter level="${nio_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- 其他服务操作文件日志 -->
+        <RollingFile name="ToolFile" fileName="${tool_fileName}" filePattern="${tool_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${tool_timeInterval}" modulate="${tool_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${tool_max}" />
+            <ThresholdFilter level="${tool_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- 客户端安装与卸载日志配置日志 -->
+        <RollingFile name="ClientFile" fileName="${client_fileName}" filePattern="${client_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${client_timeInterval}" modulate="${client_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${client_max}" />
+            <ThresholdFilter level="${client_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- API 文件日志记录日志 -->
+        <RollingFile name="ApiFile" fileName="${api_fileName}" filePattern="${api_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${api_timeInterval}" modulate="${api_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${api_max}" />
+            <ThresholdFilter level="${api_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- 挂载文件浏览功能 文件日志记录 -->
+        <RollingFile name="MountFile" fileName="${mountFile_fileName}" filePattern="${mountFile_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${mountFile_timeInterval}" modulate="${mountFile_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${mountFile_max}" />
+            <ThresholdFilter level="${mountFile_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <!-- 一键迁移日志 -->
+        <RollingFile name="XkeyFile" fileName="${xkey_fileName}" filePattern="${xkey_filePattern}">
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${xkey_timeInterval}" modulate="${xkey_timeModulate}"/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${xkey_max}" />
+            <ThresholdFilter level="${xkey_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+    </appenders>
+
+    <loggers>
+
+        <!-- 普通操作文件 -->
+        <AsyncLogger name="com.datasure.websure" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="SystemLogFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <!-- 网络操作 -->
+     	<AsyncLogger name="com.datasure.websure.net" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="NetWorkLogFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+       	<!-- 通信模块 -->
+        <AsyncLogger name="com.datasure.websure.nio" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="NioFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <!-- 其他服务操作文件 -->
+        <AsyncLogger name="com.datasure.websure.tool" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="ToolFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <!-- 客户端安装与卸载 -->
+        <AsyncLogger name="com.datasure.websure.client" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="ClientFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <!-- API 文件日志记录 -->
+        <AsyncLogger name="com.datasure.api" level="${output_log_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="ApiFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+        <!-- 挂载文件浏览功能 文件日志记录 begin -->
+        <AsyncLogger name="com.datasure.websure.net.recovery.msg.protobuf" level="${mountFile_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="MountFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.datasure.websure.recovery.service.impl.MountFileServiceImpl" level="${mountFile_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="MountFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+        <!-- 挂载文件浏览功能 文件日志记录 end -->
+
+        <!-- 一键迁移模块 -->
+        <AsyncLogger name="com.datasure.movesure.xkey" level="${xkey_level}" additivity="false" includeLocation="false">
+            <appender-ref ref="XkeyFile"/>
+            <appender-ref ref="Console"/>
+        </AsyncLogger>
+
+		<!-- 第三方模块 -->
+		<logger name="org.springframework" level="INFO"></logger>
+      	<logger name="org.apache.struts2" level="INFO"></logger>
+		<logger name="com.opensymphony.xwork2" level="INFO"></logger>
+        <logger name="org.mybatis.spring" level="INFO"></logger>
+        <logger name="org.apache.ibatis" level="INFO"></logger>
+        <logger name="org.quartz" level="INFO"></logger>
+
+
+        <!-- 默认Root-Logger -->
+        <root level="${output_log_level}" includeLocation="false">
+            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="Console"/>
+            <appender-ref ref="InfoFile"/>
+            <appender-ref ref="WarnFile"/>
+            <appender-ref ref="ErrorFile"/>
+        </root>
+        
+    </loggers>
+
+</configuration>
